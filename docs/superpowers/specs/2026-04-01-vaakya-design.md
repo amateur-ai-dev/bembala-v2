@@ -68,8 +68,11 @@ Vaakya is a two-sided voice+text assistant harness for blue-collar workers in qu
 | `POST /api/chat` | Text → LLM reply via Sarvam-M (dialect system prompt injected) |
 | `POST /api/translate` | Text → text via Mayura v1 |
 | `POST /api/s2s` | Full pipeline: audio in → STT → LLM → TTS → audio out |
-| `GET/POST /api/sessions` | Chat history CRUD |
-| `GET/POST /employer/*` | Employer dashboard APIs |
+| `POST /api/sessions` | Create new chat session |
+| `GET /api/sessions/{id}/messages` | Fetch message history for a session |
+| `GET/POST /employer/workers` | List workers / add worker to org |
+| `GET /employer/workers/{id}/sessions` | View worker's chat history |
+| `PUT /employer/config` | Update org domain system prompt |
 
 ---
 
