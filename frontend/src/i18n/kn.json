@@ -1,0 +1,20 @@
+{
+  "welcome": "ಸ್ವಾಗತ",
+  "choose_language": "ನಿಮ್ಮ ಭಾಷೆ ಆರಿಸಿ",
+  "enter_phone": "ಫೋನ್ ನಂಬರ್ ನಮೂದಿಸಿ",
+  "enter_otp": "OTP ನಮೂದಿಸಿ",
+  "send_otp": "OTP ಕಳಿಸಿ",
+  "verify": "ಪರಿಶೀಲಿಸಿ",
+  "hold_to_talk": "ಮಾತನಾಡಲು ಒತ್ತಿ ಹಿಡಿಯಿರಿ",
+  "type_message": "ಸಂದೇಶ ಟೈಪ್ ಮಾಡಿ",
+  "send": "ಕಳಿಸಿ",
+  "translate": "ಅನುವಾದ",
+  "settings": "ಸೆಟ್ಟಿಂಗ್ಸ್",
+  "voice": "ಧ್ವನಿ",
+  "chat": "ಚಾಟ್",
+  "dialect": "ಉಪಭಾಷೆ",
+  "speed": "ವೇಗ",
+  "from": "ಇಂದ",
+  "to": "ಗೆ",
+  "loading": "ಲೋಡ್ ಆಗುತ್ತಿದೆ..."
+}
