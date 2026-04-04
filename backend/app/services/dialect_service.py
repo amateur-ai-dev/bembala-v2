@@ -1,4 +1,5 @@
 from typing import List, Dict
+from app.services.persona.personas import get_persona_prompt
 
 DIALECTS: List[Dict] = [
     {
@@ -146,9 +147,16 @@ def build_system_prompt(domain_prompt: str, dialect_code: str) -> str:
     dialect = _DIALECT_MAP.get(dialect_code)
     if not dialect:
         raise ValueError(f"Unknown dialect: {dialect_code}")
+
+    # Persona layer: colloquial speaking style specific to this dialect region
+    persona_prompt = get_persona_prompt(dialect_code)
+    persona_section = f"{persona_prompt}\n\n" if persona_prompt else ""
+
     return (
-        f"{domain_prompt}\n\n"
+        f"{persona_section}"
+        f"Domain context: {domain_prompt}\n\n"
         f"Language instruction: {dialect['dialect_instruction']} "
         f"Always respond in {dialect['display_name_en']} ({dialect['display_name_local']}). "
-        f"Keep responses concise and easy to understand for a blue-collar worker."
+        f"Keep responses concise, informal, and easy to understand for a blue-collar worker. "
+        f"Never use formal or literary language."
     )

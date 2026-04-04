@@ -1,0 +1,328 @@
+{
+  "meta": {
+    "description": "Complete colloquial language reference for Kannada, Telugu, Tamil — verb contractions, grammar patterns, vocabulary, slang, regional variations. Used to generate persona training data.",
+    "sources": ["ling-app.com", "preply.com", "thinkbangalore.com", "srikaram.org", "decodetamil.com", "chennaigaga.com", "kannadakaranakannadaka.substack.com", "currylangs.tumblr.com", "talkpal.ai", "quora.com"]
+  },
+
+  "kannada": {
+    "verb_contractions": {
+      "description": "Literary Kannada uses full verb endings. Spoken/colloquial Kannada contracts heavily.",
+      "u_ending_verbs": {
+        "example_root": "hOgu (ಹೋಗು) = go",
+        "pattern": "Literary ತ್ತ- cluster → Spoken ಗ್ತ- / ಗ-",
+        "table": [
+          {"subject": "naanu (I)", "literary": "hOguttEne", "spoken": "hOgtIni"},
+          {"subject": "naavu (we)", "literary": "hOguttEve", "spoken": "hOgtIvi"},
+          {"subject": "niinu (you inf)", "literary": "hOguttIye", "spoken": "hOgtIya"},
+          {"subject": "nIvu (you formal)", "literary": "hOguttIri", "spoken": "hOgtIri"},
+          {"subject": "avanu (he)", "literary": "hOguttAne", "spoken": "hOgtAne"},
+          {"subject": "avaLu (she)", "literary": "hOguttALe", "spoken": "hOgtALe"},
+          {"subject": "avaru (they/formal he)", "literary": "hOguttAre", "spoken": "hOgtAre"},
+          {"subject": "adu (it)", "literary": "hOguttade", "spoken": "hOgatte"}
+        ]
+      },
+      "i_e_ending_verbs": {
+        "example_root": "kuDi (ಕುಡಿ) = drink",
+        "pattern": "Literary ಯುತ್ತ → Spoken ತ (ಯು dropped in most forms)",
+        "table": [
+          {"subject": "naanu (I)", "literary": "kuDiyuttEne", "spoken": "kuDitIni"},
+          {"subject": "naavu (we)", "literary": "kuDiyuttEve", "spoken": "kuDitIvi"},
+          {"subject": "niinu (you inf)", "literary": "kuDiyuttIye", "spoken": "kuDitIya"},
+          {"subject": "avanu (he)", "literary": "kuDiyuttAne", "spoken": "kuDitAne"},
+          {"subject": "avaLu (she)", "literary": "kuDiyuttALe", "spoken": "kuDitALe"}
+        ]
+      },
+      "common_spoken_verb_examples": [
+        {"root": "barO (come)", "spoken_I": "barttIni", "spoken_you": "barttIya"},
+        {"root": "maaD (do)", "spoken_I": "maadtIni", "spoken_you": "maadtIya"},
+        {"root": "nOD (see)", "spoken_I": "nOdtIni", "spoken_you": "nOdtIya"},
+        {"root": "koD (give)", "spoken_I": "koDtIni", "spoken_you": "koDtIya"},
+        {"root": "tiD (eat)", "spoken_I": "tidtIni / tinntIni", "spoken_you": "tidtIya"},
+        {"root": "keL (hear/ask)", "spoken_I": "keLtIni", "spoken_you": "keLtIya"}
+      ]
+    },
+    "pronouns_informal": {
+      "I": "naanu", "we": "naavu",
+      "you_informal": "niinu", "you_formal": "nIvu",
+      "he": "avanu / ivanu", "she": "avaLu / ivaLu",
+      "they": "avaru", "it": "adu"
+    },
+    "question_words_spoken": {
+      "what": "enu / yenu", "who": "yaaru", "where": "elli / yaav kaDe",
+      "when": "yaavaaga", "why": "yaake", "how": "hEge",
+      "how much": "eshTu", "which": "yaav"
+    },
+    "slang_and_expressions": {
+      "address_terms": {
+        "macha": "close male friend (lit: brother-in-law); Bengaluru/Coastal KN",
+        "maga / magane": "son; used for any male friend; all regions",
+        "guru": "teacher; used respectfully for any knowledgeable friend",
+        "anna": "elder brother; respectful for older males",
+        "bhava": "brother-in-law; North Karnataka for close male friend",
+        "akka": "elder sister; respectful address for older females",
+        "ayya": "sir/father; respectful; Coastal KN",
+        "ri": "respect marker suffix added to address"
+      },
+      "praise_exclamations": {
+        "sakkath": "very good / excellent",
+        "bindaas": "cool / carefree / no problem",
+        "chamak": "stylish / shiny / impressive",
+        "full on": "totally / completely (Kanglish)",
+        "swalpa adjust maadi": "please adjust a little (Bengaluru classic)"
+      },
+      "negative_insult": {
+        "chindi": "cheap / stingy / low quality",
+        "dabba": "useless / broken thing",
+        "khaali": "empty / stupid / meaningless",
+        "chamcha": "sycophant / flatterer",
+        "baddimaga": "son of a moneylender; mild insult"
+      },
+      "filler_words": {
+        "howdu": "yes (all regions)",
+        "illa / beda": "no / don't want",
+        "sari": "okay / alright",
+        "haange": "like that / right? (Bengaluru)",
+        "nodu": "look / see",
+        "gothilla": "don't know",
+        "bekilla": "not needed"
+      },
+      "north_karnataka_specific": {
+        "yen anta": "what is it (Hubli-Dharwad)",
+        "nodri": "look here / see (respectful plural form used casually)",
+        "sutta barli": "scolding about irrelevant things",
+        "jingchak / rupchik": "smartness / beauty (Hubli youth)",
+        "laa suffix": "casual sentence ender (e.g. 'hogta laa' = going ya)",
+        "appa suffix": "respectful sentence ender with elders"
+      },
+      "kanglish_expressions": {
+        "full scene ide": "there's a full scene / situation",
+        "item ide": "there's something happening",
+        "life aaytu": "life is sorted / done",
+        "actually basically totally": "English fillers in Bengaluru speech",
+        "-u suffix on English words": "car-u, office-u, bike-u"
+      }
+    },
+    "regional_patterns": {
+      "north_karnataka": "Adds 'a' at end of nouns. Harsher consonants. Hindi mix (Bombay influence). Short blunt sentences. 'ri' for respect.",
+      "bengaluru": "Heavy Kanglish. Fast pace. 'macha' for everyone. English words inserted mid-sentence.",
+      "coastal": "Tulu/Tamil influence. Slower pace. Softer vowels. 'ayya' used. Double affirmations (howdu howdu)."
+    }
+  },
+
+  "telugu": {
+    "verb_contractions": {
+      "description": "Telangana Telugu contracts heavily. Far less Sanskritized than Andhra Telugu.",
+      "contraction_examples": [
+        {"formal": "vastanu (I will come)", "telangana_spoken": "vastan"},
+        {"formal": "velladam (going - literary)", "telangana_spoken": "pOvadam / pOta"},
+        {"formal": "meeru ekkaDiki veLtunnaru (where are you going)", "telangana_spoken": "meerekkaDikeLtunnaru (word fusion)"},
+        {"formal": "chEstunnanu (I am doing)", "telangana_spoken": "chEstaanu / chEstan"},
+        {"formal": "vastaanu (I will come)", "telangana_spoken": "vastan"},
+        {"formal": "poestanu (I will go)", "telangana_spoken": "potan"}
+      ],
+      "verb_endings": {
+        "-ru": "formal you/they",
+        "-mu": "informal they",
+        "-vu": "informal you",
+        "-Du": "he (masculine)",
+        "-di": "she/animals/objects"
+      }
+    },
+    "pronouns_informal": {
+      "I": "naanu", "we": "manam / memu",
+      "you_informal": "nuvvu", "you_formal": "meeru",
+      "he": "vaaDu", "she": "aame",
+      "they": "vallu / vaLLu",
+      "honorific_neutral": "andi (added at sentence end like 'ji')"
+    },
+    "question_words_spoken": {
+      "what": "enti / emi", "who": "evaru", "where": "ekkaDa",
+      "when": "epuDu", "why": "enDuku", "how": "ela",
+      "how much": "entha", "which": "eedi"
+    },
+    "slang_and_expressions": {
+      "address_terms": {
+        "maccha": "dude/bro; Tamil-borrowed; Rayalaseema + youth everywhere",
+        "mava": "brother-in-law → close male friend; Rayalaseema",
+        "baava": "brother-in-law; teasing/friendly use; Coastal AP",
+        "anna": "elder brother; respectful for older males",
+        "akka": "elder sister",
+        "bro": "English bro; Hyderabad youth",
+        "boss": "addressing strangers/senior on street; Hyderabad",
+        "ra": "imperative filler; 'come on', 'right?'",
+        "da": "male peer marker at sentence end",
+        "andi": "neutral respect marker at sentence end"
+      },
+      "telangana_specific_slang": {
+        "adirindi": "impressive / extraordinary / well done",
+        "kaste": "expression of forgetfulness or astonishment",
+        "gurram": "full of energy / excitement",
+        "pappu": "easy task (in TS slang, not lentil soup)",
+        "chachipoyi": "mind-blowing / extremely impressive",
+        "ammoh": "wow / astonishment exclamation",
+        "lolli": "unnecessary drama / chaos ('lolli aapu' = stop it)",
+        "katharnak": "dangerous → used for something super cool",
+        "thop / thopu": "appreciation for a friend (youth)",
+        "jaffa": "nonsense / rubbish"
+      },
+      "hyderabad_urdu_mix": {
+        "yaar": "friend (Urdu)",
+        "bhai": "brother (Urdu)",
+        "kya baat": "what's the deal / wow (Urdu)",
+        "bilkul": "absolutely (Urdu)",
+        "samjha": "understood (Urdu)",
+        "theek hai": "okay (Hindi)"
+      },
+      "common_expressions": {
+        "enti": "what / what's up",
+        "chudu ra": "look here man",
+        "vaa ra": "come on man",
+        "aite": "then / okay / so (connector)",
+        "ante": "meaning / like / that is to say",
+        "gottindi": "understood / got it",
+        "ayyo": "oh no / expression of distress",
+        "ra babu": "come on man / casual invitation",
+        "em vundi": "what's up / what is there",
+        "ela unnav": "how are you (informal)",
+        "ela unnaru andi": "how are you (polite)"
+      }
+    },
+    "regional_patterns": {
+      "hyderabad": "Urdu/Hindi mix. 'bro', 'yaar', 'bhai'. Fast urban speech. 'ra' and 'da' suffixes. Drops subjects.",
+      "coastal_ap": "Polite 'andi' suffix. Slower, clearer. Uses 'meeru' formal. 'ayyo' for distress. Explains fully.",
+      "rayalaseema": "Harder consonants. Tamil border influence. 'mava', 'maccha'. Short clipped sentences. 'aite' connector."
+    }
+  },
+
+  "tamil": {
+    "verb_contractions": {
+      "description": "Spoken Tamil massively contracts formal Tamil. Strong diglossia — written and spoken are very different.",
+      "examples": [
+        {"formal": "saappitteerga (did you eat - formal)", "spoken": "saaptiya (did you eat - informal)"},
+        {"formal": "sel (go - literary)", "spoken": "po (go - spoken universal)"},
+        {"formal": "saapidu (eat)", "spoken": "saapdu (eat - vowel dropped)"},
+        {"formal": "paarkka vendum (need to see)", "spoken": "paakkaNum"},
+        {"formal": "sollukirEn (I am saying)", "spoken": "solren"},
+        {"formal": "pOkirEn (I am going)", "spoken": "pOren"},
+        {"formal": "varukirEn (I am coming)", "spoken": "varen"},
+        {"formal": "seikiREn (I am doing)", "spoken": "seiren / pannren"}
+      ],
+      "key_patterns": [
+        "Vowels dropped: saapidu → saapdu",
+        "kirE- cluster → -ren in 1st person: pOkirEn → pOren",
+        "kattumEn → katten",
+        "kkiREn → -kren: paarkkirEn → paarkren",
+        "-kkiREn → -kkren: kuDikkiREn → kuDikkren"
+      ]
+    },
+    "pronouns_informal": {
+      "I": "naaN / naan", "we": "naaNga / naanga",
+      "you_informal_male": "da (sentence ender) / di (for female)",
+      "you_formal": "neenga / neengaL",
+      "he": "avan", "she": "avaL",
+      "they": "avaanga / avanga",
+      "it": "adu"
+    },
+    "question_words_spoken": {
+      "what": "enna", "who": "yaaru", "where": "enga",
+      "when": "eppo", "why": "yaen / yen", "how": "eppadi",
+      "how much": "evvaLavu", "which": "edu"
+    },
+    "slang_and_expressions": {
+      "address_terms": {
+        "machan / machi": "brother-in-law → dude/bro; all male friends; pan-TN",
+        "da": "male peer marker at sentence end ('pO da' = go man)",
+        "di": "female peer marker at sentence end",
+        "pa": "friendly/affectionate address; Coimbatore/West TN",
+        "anna": "elder brother; respectful for any older male",
+        "akka": "elder sister",
+        "thambi": "younger brother; friendly for any younger male",
+        "aaiya / aiya": "sir / father figure; respectful",
+        "mapillai": "son-in-law → trendy friend address (modern)",
+        "saar": "sir (English-derived, used for bosses/elders)"
+      },
+      "praise_expressions": {
+        "sema / sema-ah": "awesome / fantastic",
+        "kalakkal": "rocking / smashing",
+        "killi / gilli": "genius / skilled",
+        "mass": "impressive / grand",
+        "vera level": "next level / exceptional",
+        "thala / thalaiva": "leader / boss (respectful)",
+        "mersal": "mesmerized / amazing",
+        "jammunu": "smooth / skilled / luxury",
+        "dhillu": "boldness / audacity (admiring)"
+      },
+      "negative_expressions": {
+        "mokka": "boring / lame",
+        "vetti": "idle / useless / free (also: free time)",
+        "aattam": "drama / exaggerated behavior",
+        "bejaaru": "problematic / stressful",
+        "kasmalam": "mess / disorganized",
+        "jollu": "drooling over / coveting"
+      },
+      "madras_bashai_specific": {
+        "vasool": "value for money / collect money",
+        "kalaichutan": "make fun of / tease",
+        "apeetu": "escape / abscond without being noticed",
+        "aleka": "handle smoothly / effortlessly",
+        "ushaar": "alert / shrewd / careful",
+        "thanni": "water (also slang for alcohol)",
+        "kaasu": "money (coin → general money)",
+        "scene": "situation / problem",
+        "enna machan scene": "what's the situation bro"
+      },
+      "filler_words": {
+        "seri / seri seri": "okay / okay okay (all regions)",
+        "amma": "wow / yes-marker / mother (Madurai exclamation)",
+        "aama": "yes / affirmative (Coimbatore)",
+        "aiyyo": "oh no / distress / shock",
+        "summa": "simply / just / casually (Coimbatore very common)",
+        "paaru": "look / see (informal)",
+        "sollu": "say / tell me (informal)",
+        "theriyuma": "you know? / know it? (South TN)",
+        "poda": "get lost (used affectionately between friends)"
+      },
+      "coimbatore_specific": {
+        "nga_suffix": "respect marker: 'sollunga', 'vaanga', 'paarunga'",
+        "summa": "broadly used for 'just', 'simply', 'casually'",
+        "aama aama": "yes yes (affirmative filler)",
+        "tone": "softer, more musical than Chennai"
+      },
+      "madurai_specific": {
+        "harder_sounds": "stronger retroflexes, elongated vowels",
+        "enna solra": "what are you saying",
+        "paaru da": "look here man",
+        "theriyuma": "you know (sentence ender)",
+        "poda": "go away (affectionate between close friends)"
+      }
+    },
+    "regional_patterns": {
+      "chennai": "Fast Madras bashai. Telugu/Urdu/English mix. 'machan' + 'da' constantly. 'seri' filler. 'kelambu' = go.",
+      "coimbatore": "Soft musical. 'pa' + 'nga'. 'summa' broadly used. 'aama' not 'aamaanda'. Slower than Chennai.",
+      "madurai": "Rustic direct. Long vowels. Hard consonants. 'theriyuma' ender. 'poda' affectionate. No pleasantries when busy."
+    }
+  },
+
+  "youtube_channels": {
+    "kannada": [
+      {"name": "Kannada Comedy Scenes", "content": "Movie comedy clips, urban Kannada", "dialect": "Bengaluru/mixed", "good_for": "Kanglish speech patterns, urban Bengaluru Kannada"},
+      {"name": "Sakkath TV", "content": "Comedy skits, short videos", "dialect": "Bengaluru/mixed"},
+      {"name": "North Karnataka vloggers", "note": "Search: 'north karnataka vlog youtube' for Hubli/Dharwad channels"},
+      {"name": "Kannada short films - comedy genre", "note": "Search: 'kannada short film comedy youtube 2024'"}
+    ],
+    "telugu": [
+      {"name": "My Village Show", "subscribers": "1.73M", "content": "Village life, Telangana culture", "dialect": "Telangana/rural", "url_hint": "myvillageshow"},
+      {"name": "Dhethadi (Tamada Media)", "subscribers": "1.88M", "content": "Daily life comedy", "dialect": "Telangana", "good_for": "Natural Telangana spoken Telugu"},
+      {"name": "Mahathalli", "content": "Urban comedy, daily life", "dialect": "Hyderabad", "good_for": "Hyderabad urban Telugu"},
+      {"name": "Wirally", "subscribers": "1.4M", "content": "Youth entertainment", "dialect": "Hyderabad/mixed"},
+      {"name": "Hyderabad Diaries", "content": "Hyderabadi culture, Urdu-Telugu mix", "dialect": "Hyderabad", "good_for": "Hyderabadi Telugu Urdu mix"}
+    ],
+    "tamil": [
+      {"name": "Nakkalites", "subscribers": "2.34M", "content": "Comedy, political satire, Alapparaigal", "dialect": "Coimbatore/West TN", "good_for": "West Tamil spoken patterns"},
+      {"name": "Eruma Saani", "subscribers": "2.31M", "content": "Comparison comedy skits", "dialect": "Coimbatore/West TN"},
+      {"name": "Mic Set", "subscribers": "4.4M", "content": "Daily life comedy sketches", "dialect": "Chennai/mixed", "good_for": "Chennai informal Tamil"},
+      {"name": "Sothanaigal", "content": "Daily dose comedy", "dialect": "Mixed TN"},
+      {"name": "Madurai comedy channels", "note": "Search: 'madurai tamil comedy youtube' for South TN dialect content"}
+    ]
+  }
+}

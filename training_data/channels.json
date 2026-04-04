@@ -1,0 +1,145 @@
+{
+  "description": "YouTube channels for informal spoken-language training data. Run fetch_yt_transcripts.py with this file to download and transcribe. All channels selected for informal, conversational speech — NO news or formal education.",
+  "usage": "python fetch_yt_transcripts.py --channels channels.json --lang kn --max-per-channel 10",
+  "channels": [
+    {
+      "name": "My Village Show",
+      "lang": "te",
+      "persona": "ravi_hyderabad_te",
+      "url": "https://www.youtube.com/@MyVillageShow",
+      "uploads_playlist": "https://www.youtube.com/@MyVillageShow/videos",
+      "dialect": "te-hyderabad / Telangana rural",
+      "content": "Village life, culture, comedy — natural Telangana spoken Telugu",
+      "why": "Authentic village/working-class Telangana Telugu speech patterns, minimal scripting"
+    },
+    {
+      "name": "Dhethadi (Tamada Media)",
+      "lang": "te",
+      "persona": "ravi_hyderabad_te",
+      "url": "https://www.youtube.com/@Dhethadi",
+      "uploads_playlist": "https://www.youtube.com/@Dhethadi/videos",
+      "dialect": "te-hyderabad / Telangana urban",
+      "content": "Daily life comedy, Telangana style",
+      "why": "Natural Telangana urban speech, informal conversations"
+    },
+    {
+      "name": "Mahathalli",
+      "lang": "te",
+      "persona": "ravi_hyderabad_te",
+      "url": "https://www.youtube.com/@Mahathalli",
+      "uploads_playlist": "https://www.youtube.com/@Mahathalli/videos",
+      "dialect": "te-hyderabad / Hyderabad urban",
+      "content": "Urban comedy, daily life Hyderabad",
+      "why": "Hyderabadi Telugu spoken patterns, Urdu-Hindi mix"
+    },
+    {
+      "name": "Wirally",
+      "lang": "te",
+      "persona": "lakshmi_coastal_ap_te",
+      "url": "https://www.youtube.com/@Wirally",
+      "uploads_playlist": "https://www.youtube.com/@Wirally/videos",
+      "dialect": "te-hyderabad / mixed AP-TS",
+      "content": "Youth entertainment, relatable everyday situations",
+      "why": "Mix of Hyderabadi and Coastal AP Telugu speech"
+    },
+    {
+      "name": "Nakkalites",
+      "lang": "ta",
+      "persona": "kavitha_west_ta",
+      "url": "https://www.youtube.com/@Nakkalites",
+      "uploads_playlist": "https://www.youtube.com/@Nakkalites/videos",
+      "dialect": "ta-west / Coimbatore",
+      "content": "Comedy, political satire, Alapparaigal series",
+      "why": "Authentic Coimbatore Tamil speech — soft 'nga' suffix, musical tone"
+    },
+    {
+      "name": "Eruma Saani",
+      "lang": "ta",
+      "persona": "kavitha_west_ta",
+      "url": "https://www.youtube.com/@ErumaaSaani",
+      "uploads_playlist": "https://www.youtube.com/@ErumaaSaani/videos",
+      "dialect": "ta-west / Coimbatore",
+      "content": "Comparison skits, everyday humor",
+      "why": "Coimbatore friends group — natural West TN spoken Tamil"
+    },
+    {
+      "name": "Mic Set",
+      "lang": "ta",
+      "persona": "murugan_chennai_ta",
+      "url": "https://www.youtube.com/@MicSet",
+      "uploads_playlist": "https://www.youtube.com/@MicSet/videos",
+      "dialect": "ta-chennai / Chennai urban",
+      "content": "Daily life comedy sketches",
+      "why": "Fast-paced Chennai Tamil, Madras bashai, street-level speech"
+    },
+    {
+      "name": "Sothanaigal",
+      "lang": "ta",
+      "persona": "murugan_chennai_ta",
+      "url": "https://www.youtube.com/@Sothanaigal",
+      "uploads_playlist": "https://www.youtube.com/@Sothanaigal/videos",
+      "dialect": "ta-chennai / mixed TN",
+      "content": "Daily life comedy",
+      "why": "Everyday Tamil conversations across different social situations"
+    },
+    {
+      "name": "Kannada Comedy Scenes",
+      "lang": "kn",
+      "persona": "priya_bengaluru_kn",
+      "url": "https://www.youtube.com/@KannadaComedyScenes",
+      "uploads_playlist": "https://www.youtube.com/@KannadaComedyScenes/videos",
+      "dialect": "kn-bengaluru / Bengaluru urban",
+      "content": "Movie comedy clips, Kanglish scenes",
+      "why": "Bengaluru colloquial Kannada, Kanglish patterns"
+    },
+    {
+      "name": "North Karnataka / Hubli vlogs",
+      "lang": "kn",
+      "persona": "raju_north_kn",
+      "search_query": "north karnataka hubli dharwad vlog kannada youtube",
+      "dialect": "kn-north / Hubli-Dharwad",
+      "content": "Daily life vlogs from North Karnataka",
+      "why": "Authentic North Karnataka dialect — Hubli/Dharwad speech patterns",
+      "note": "Search YouTube for this — specific channels vary. Filter: <15min, no news"
+    },
+    {
+      "name": "Coastal Karnataka vlogs",
+      "lang": "kn",
+      "persona": "shivu_coastal_kn",
+      "search_query": "coastal karnataka mangalore udupi vlog kannada youtube",
+      "dialect": "kn-coastal / Mangalore-Udupi",
+      "content": "Daily life, Tulu-Kannada mix content",
+      "why": "Coastal Karnataka speech — Tulu influence, slower rhythm",
+      "note": "Search YouTube for this — specific channels vary. Filter: <15min, no news"
+    },
+    {
+      "name": "Madurai Tamil comedy",
+      "lang": "ta",
+      "persona": "selvam_south_ta",
+      "search_query": "madurai tamil comedy youtube short film 2024",
+      "dialect": "ta-south / Madurai",
+      "content": "Madurai-style comedy, short films",
+      "why": "Rustic South Tamil — Madurai vowel elongation, hard consonants",
+      "note": "Search YouTube for this — specific channels vary. Filter: <15min, no news"
+    },
+    {
+      "name": "Rayalaseema Telugu content",
+      "lang": "te",
+      "persona": "suresh_rayalaseema_te",
+      "search_query": "rayalaseema telugu comedy youtube kurnool kadapa",
+      "dialect": "te-rayalaseema / Kurnool-Kadapa",
+      "content": "Rayalaseema daily life, comedy",
+      "why": "Clipped Rayalaseema speech, Tamil-border influence",
+      "note": "Search YouTube for this — specific channels vary. Filter: <15min, no news"
+    }
+  ],
+  "filters": {
+    "max_duration_seconds": 900,
+    "skip_title_keywords": [
+      "news", "breaking", "live", "press", "parliament", "budget", "election",
+      "ಸುದ್ದಿ", "ವಾರ್ತೆ", "వార్తలు", "న్యూస్", "செய்திகள்", "நியூஸ்"
+    ],
+    "preferred_duration_seconds": 480,
+    "notes": "Prefer: comedy skits, vlogs, short films, daily life. Skip: news, formal lectures, devotional"
+  }
+}

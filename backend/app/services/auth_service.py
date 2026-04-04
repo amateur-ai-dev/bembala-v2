@@ -17,7 +17,13 @@ def store_otp(phone: str, otp: str) -> None:
     _otp_store[phone] = otp
 
 
+DEV_BYPASS_OTP = "000000"
+
+
 def verify_otp(phone: str, otp: str) -> bool:
+    # In mock mode, 000000 always works — skip copy-pasting OTPs during dev
+    if settings.otp_mock and otp == DEV_BYPASS_OTP:
+        return True
     stored = _otp_store.get(phone)
     if stored and stored == otp:
         del _otp_store[phone]  # consume OTP

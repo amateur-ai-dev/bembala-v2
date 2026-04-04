@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { requestOtp, verifyOtp } from '../api/client'
@@ -9,6 +9,13 @@ export default function LoginScreen() {
   const navigate = useNavigate()
   const login = useAuthStore((s) => s.login)
   const [phone, setPhone] = useState('')
+
+  // Language must be chosen before login — redirect to picker if missing
+  useEffect(() => {
+    if (!localStorage.getItem('vaakya_lang')) {
+      navigate('/', { replace: true })
+    }
+  }, [])
   const [otp, setOtp] = useState('')
   const [step, setStep] = useState<'phone' | 'otp'>('phone')
   const [loading, setLoading] = useState(false)
