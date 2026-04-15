@@ -1,3 +1,77 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text: #111111;
+    --muted: #6b7280;
+    --brand: #16a34a;
+    --brand-light: #dcfce7;
+    --user-bubble: #16a34a;
+    --agent-bubble: #f0fdf4;
+    --agent-bubble-text: #111111;
+  }
+
+  .dark {
+    --bg: #0f0f0f;
+    --surface: #1c1c1c;
+    --border: #2a2a2a;
+    --text: #f5f5f5;
+    --muted: #6b7280;
+    --brand: #16a34a;
+    --brand-light: #1c2e1c;
+    --user-bubble: #16a34a;
+    --agent-bubble: #1c2e1c;
+    --agent-bubble-text: #f0fdf4;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .bg-app       { background-color: var(--bg); }
+  .bg-surface   { background-color: var(--surface); }
+  .border-app   { border-color: var(--border); }
+  .text-app     { color: var(--text); }
+  .text-muted   { color: var(--muted); }
+
+  /* Mic pulse ring animation */
+  @keyframes pulse-ring {
+    0%   { transform: scale(1);    opacity: 0.6; }
+    100% { transform: scale(1.6);  opacity: 0; }
+  }
+
+  .mic-pulse::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: #ef4444;
+    animation: pulse-ring 1s ease-out infinite;
+  }
+
+  /* Message slide-up */
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .msg-in { animation: msg-in 0.18s ease-out both; }
+}

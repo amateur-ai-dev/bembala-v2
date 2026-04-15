@@ -11,18 +11,21 @@ export default function AudioPlayer({ audioB64, format = 'wav' }: Props) {
   const play = () => {
     if (!audioRef.current) return
     audioRef.current.src = `data:audio/${format};base64,${audioB64}`
-    audioRef.current.play()
+    audioRef.current.play().catch(() => {})
   }
 
   return (
-    <div>
-      <audio ref={audioRef} />
+    <>
+      <audio ref={audioRef} hidden />
       <button
         onClick={play}
-        className="bg-gray-700 text-white px-4 py-2 rounded-lg text-sm"
+        className="flex items-center gap-1.5 text-xs font-medium opacity-70 hover:opacity-100 transition-opacity mt-1"
       >
-        🔊 Play
+        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        Play again
       </button>
-    </div>
+    </>
   )
 }

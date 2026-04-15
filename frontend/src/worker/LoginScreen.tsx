@@ -9,17 +9,14 @@ export default function LoginScreen() {
   const navigate = useNavigate()
   const login = useAuthStore((s) => s.login)
   const [phone, setPhone] = useState('')
-
-  // Language must be chosen before login — redirect to picker if missing
-  useEffect(() => {
-    if (!localStorage.getItem('vaakya_lang')) {
-      navigate('/', { replace: true })
-    }
-  }, [])
   const [otp, setOtp] = useState('')
   const [step, setStep] = useState<'phone' | 'otp'>('phone')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (!localStorage.getItem('vaakya_lang')) navigate('/', { replace: true })
+  }, [])
 
   const handleRequestOtp = async () => {
     setLoading(true)
@@ -28,7 +25,7 @@ export default function LoginScreen() {
       await requestOtp(phone)
       setStep('otp')
     } catch {
-      setError('Failed to send OTP')
+      setError('OTP ಕಳಿಸಲಾಗಲಿಲ್ಲ')
     } finally {
       setLoading(false)
     }
@@ -42,51 +39,111 @@ export default function LoginScreen() {
       login(res.data.access_token, 'worker', phone)
       navigate('/worker/voice')
     } catch {
-      setError('Invalid OTP')
+      setError('OTP ತಪ್ಪಾಗಿದೆ')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-8 gap-6">
-      <h1 className="text-white text-4xl font-bold">Vaakya</h1>
-      {step === 'phone' ? (
-        <>
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder={t('enter_phone')}
-            className="w-full max-w-xs text-2xl p-4 rounded-xl bg-gray-800 text-white text-center"
-          />
-          <button
-            onClick={handleRequestOtp}
-            disabled={loading || phone.length < 10}
-            className="w-full max-w-xs bg-indigo-600 text-white text-2xl font-bold py-5 rounded-2xl disabled:opacity-50"
-          >
-            {loading ? t('loading') : t('send_otp')}
-          </button>
-        </>
-      ) : (
-        <>
-          <input
-            type="number"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder={t('enter_otp')}
-            className="w-full max-w-xs text-3xl p-4 rounded-xl bg-gray-800 text-white text-center tracking-widest"
-          />
-          <button
-            onClick={handleVerify}
-            disabled={loading || otp.length !== 6}
-            className="w-full max-w-xs bg-green-600 text-white text-2xl font-bold py-5 rounded-2xl disabled:opacity-50"
-          >
-            {loading ? t('loading') : t('verify')}
-          </button>
-        </>
+    <div className="min-h-screen bg-app flex flex-col">
+      {/* Back */}
+      {step === 'otp' && (
+        <button
+          onClick={() => setStep('phone')}
+          className="absolute top-12 left-5 text-muted p-2"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
       )}
-      {error && <p className="text-red-400 text-lg">{error}</p>}
+
+      <div className="flex-1 flex flex-col justify-center px-6 gap-8">
+        {/* Logo */}
+        <div>
+          <div className="w-12 h-12 rounded-2xl bg-brand-600 flex items-center justify-center mb-5">
+            <span className="text-white text-2xl font-bold">V</span>
+          </div>
+          <h1 className="text-app text-3xl font-bold">
+            {step === 'phone' ? t('welcome') : 'OTP'}
+          </h1>
+          <p className="text-muted text-base mt-1">
+            {step === 'phone' ? t('enter_phone') : `+91 ${phone} ಗೆ ಕಳಿಸಿದ್ದೇವೆ`}
+          </p>
+        </div>
+
+        {step === 'phone' ? (
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3 bg-surface border border-app rounded-2xl px-4 py-4">
+              <span className="text-muted font-medium text-lg">+91</span>
+              <div className="w-px h-6 bg-app" />
+              <input
+                type="tel"
+                inputMode="numeric"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                placeholder="9876543210"
+                className="flex-1 bg-transparent text-app text-xl font-medium outline-none placeholder:text-muted"
+              />
+            </div>
+            <button
+              onClick={handleRequestOtp}
+              disabled={loading || phone.length < 10}
+              className="w-full bg-brand-600 text-white text-lg font-semibold py-4 rounded-2xl disabled:opacity-40 active:scale-[0.98] transition-transform"
+            >
+              {loading ? t('loading') : t('send_otp')}
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {/* 6-box OTP input */}
+            <div className="flex gap-2 justify-center">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`w-12 h-14 flex items-center justify-center rounded-xl border-2 text-app text-2xl font-bold transition-colors ${
+                    otp.length === i
+                      ? 'border-brand-600 bg-surface'
+                      : otp.length > i
+                      ? 'border-brand-600/40 bg-surface'
+                      : 'border-app bg-surface'
+                  }`}
+                >
+                  {otp[i] || ''}
+                </div>
+              ))}
+            </div>
+            {/* Hidden real input */}
+            <input
+              type="tel"
+              inputMode="numeric"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              className="sr-only"
+              autoFocus
+            />
+            <p className="text-center text-muted text-sm -mt-2">
+              ↑ ಇಲ್ಲಿ ಟ್ಯಾಪ್ ಮಾಡಿ OTP ಹಾಕಿ
+            </p>
+            <button
+              onClick={handleVerify}
+              disabled={loading || otp.length !== 6}
+              className="w-full bg-brand-600 text-white text-lg font-semibold py-4 rounded-2xl disabled:opacity-40 active:scale-[0.98] transition-transform"
+            >
+              {loading ? t('loading') : t('verify')}
+            </button>
+          </div>
+        )}
+
+        {error && (
+          <p className="text-red-500 text-base text-center -mt-4">{error}</p>
+        )}
+      </div>
+
+      <p className="text-center text-muted text-xs pb-8 px-6">
+        Vaakya · ಕನ್ನಡ · తెలుగు · தமிழ்
+      </p>
     </div>
   )
 }
