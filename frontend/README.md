@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# Vaakya — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite web app for the Vaakya voice assistant.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 18** + **TypeScript**
+- **Vite** (build tool)
+- **Tailwind CSS** with custom design tokens
+- **Zustand** (auth + dialect stores)
+- **i18next** (kn / te / ta, colloquial strings)
+- **nginx** (serves built app in Docker)
 
-## React Compiler
+## Design System
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Token | Value |
+|-------|-------|
+| Accent | `#16a34a` (forest green) |
+| Dark bg | `#0f0f0f` |
+| Light bg | `#fafafa` |
+| Font | Inter |
+| Base radius | `rounded-2xl` |
 
-## Expanding the ESLint configuration
+Dark mode toggles via `dark` class on `<html>`, set automatically from `prefers-color-scheme`.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Screens
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Worker
+| Route | Component | Description |
+|-------|-----------|-------------|
+| `/` | `LanguagePicker` | Pick KN / TE / TA + sets default dialect |
+| `/worker/login` | `LoginScreen` | Phone + OTP, redirects to picker if no lang set |
+| `/worker/voice` | `VoiceChat` | Hold-to-talk mic, auto-plays AI response |
+| `/worker/chat` | `TextChat` | Typed chat with transliteration toggle |
+| `/worker/translate` | `TranslateScreen` | Translate between KN / TE / TA / EN |
+| `/worker/settings` | `Settings` | Dialect picker, TTS speed, logout |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Employer
+| Route | Component | Description |
+|-------|-----------|-------------|
+| `/employer/login` | `EmployerLogin` | Phone + OTP + org name setup |
+| `/employer` | `Dashboard` | Stats + recent workers |
+| `/employer/workers` | `WorkerList` | Searchable worker list |
+| `/employer/workers/:id/history` | `WorkerHistory` | Conversation history |
+| `/employer/config` | `DomainConfig` | System prompt editor |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Shared Components
+
+| Component | Description |
+|-----------|-------------|
+| `HoldToTalk` | Mic button — waveform bars while recording, pulse ring animation |
+| `ChatBubble` | Message bubble — transcript above play button, `msg-in` animation |
+| `AudioPlayer` | Play button — takes `format` prop (`webm` for user audio, `wav` for assistant) |
+| `ProtectedRoute` | Redirects to login if no token / wrong role |
+
+## i18n
+
+Colloquial strings in `src/i18n/kn.json`, `te.json`, `ta.json`.
+
+Examples:
+- `hold_to_talk` (kn): `ಒತ್ಕೊಂಡ್ ಮಾತಾಡು`
+- `hold_to_talk` (te): `నొక్కి పట్టుకో మాట్లాడు`
+- `hold_to_talk` (ta): `புடிச்சு பேசு`
+
+To add a new key: add it to all 3 JSON files and use `const { t } = useTranslation()` + `t('key')` in components.
+
+## Transliteration
+
+`src/utils/transliterate.ts` — converts Roman keyboard input to native script.
+- `namaskara` → `ನಮಸ್ಕಾರ` (Kannada)
+- `namaskaram` → `నమస్కారం` (Telugu)
+- `vanakkam` → `வணக்கம்` (Tamil)
+
+Toggle button in `TextChat` header (shows current script label when on, `A` when off).
+
+## State
+
+| Store | File | Contents |
+|-------|------|----------|
+| Auth | `src/store/auth.ts` | `token`, `role`, `phone`, `login()`, `logout()` |
+| Dialect | `src/store/dialect.ts` | `dialectCode`, `language`, `ttsSpeed`, setters |
+
+Both are persisted to localStorage via Zustand `persist` middleware.
+
+## Dev
+
+```bash
+# Run via Docker (recommended — needs backend running)
+docker compose up -d --build
+
+# Or run standalone (points to localhost:8000)
+cd frontend
+npm install
+npm run dev     # http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+API base URL is `VITE_API_URL` (empty = same origin, works with Docker nginx proxy).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build   # outputs to dist/
+npm run test    # vitest — 8 tests
+npm run lint    # eslint
 ```
