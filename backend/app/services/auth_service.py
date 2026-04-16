@@ -1,5 +1,6 @@
 import random
 import string
+import httpx
 from datetime import datetime, timedelta
 from typing import Optional, Dict
 from jose import jwt, JWTError
@@ -18,6 +19,23 @@ def store_otp(phone: str, otp: str) -> None:
 
 
 DEV_BYPASS_OTP = "000000"
+
+
+def send_otp_sms(phone: str, otp: str) -> None:
+    """Send OTP via Fast2SMS. Raises on failure."""
+    response = httpx.get(
+        "https://www.fast2sms.com/dev/bulkV2",
+        params={
+            "authorization": settings.fast2sms_api_key,
+            "variables_values": otp,
+            "route": "otp",
+            "numbers": phone,
+        },
+        timeout=10,
+    )
+    data = response.json()
+    if not data.get("return"):
+        raise RuntimeError(f"Fast2SMS error: {data.get('message', 'unknown error')}")
 
 
 def verify_otp(phone: str, otp: str) -> bool:

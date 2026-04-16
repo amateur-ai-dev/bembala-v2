@@ -28,11 +28,20 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
 import time
 from pathlib import Path
+
+
+def _yt_dlp_bin() -> str:
+    path = shutil.which("yt-dlp")
+    if not path:
+        print("ERROR: yt-dlp not found. Run: brew install yt-dlp", file=sys.stderr)
+        sys.exit(1)
+    return path
 
 # ── news / formal content keywords to skip ────────────────────────────────────
 NEWS_KEYWORDS = [
@@ -64,7 +73,7 @@ def is_news(title: str) -> bool:
 def fetch_video_info(url: str) -> dict:
     """Use yt-dlp to get video metadata without downloading."""
     result = subprocess.run(
-        ["yt-dlp", "--dump-json", "--no-playlist", url],
+        [_yt_dlp_bin(), "--dump-json", "--no-playlist", url],
         capture_output=True, text=True,
     )
     if result.returncode != 0:
@@ -72,11 +81,17 @@ def fetch_video_info(url: str) -> dict:
     return json.loads(result.stdout)
 
 
+def _subprocess_env() -> dict:
+    env = os.environ.copy()
+    env["PATH"] = "/opt/homebrew/bin:/usr/local/bin:" + env.get("PATH", "")
+    return env
+
+
 def download_audio(url: str, out_path: Path) -> bool:
     """Download audio-only from a YouTube URL."""
     result = subprocess.run(
         [
-            "yt-dlp",
+            _yt_dlp_bin(),
             "-x",                       # extract audio only
             "--audio-format", "mp3",
             "--audio-quality", "5",     # ~128kbps — enough for Whisper
@@ -84,8 +99,10 @@ def download_audio(url: str, out_path: Path) -> bool:
             "-o", str(out_path),
             url,
         ],
-        capture_output=True, text=True,
+        capture_output=True, text=True, env=_subprocess_env(),
     )
+    if result.returncode != 0:
+        print(f"  yt-dlp stderr: {result.stderr[-500:]}", file=sys.stderr)
     return result.returncode == 0
 
 
@@ -149,6 +166,7 @@ def process_video(url: str, lang: str, persona_name: str) -> list[dict]:
 
     with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as f:
         audio_path = Path(f.name)
+    audio_path.unlink(missing_ok=True)  # yt-dlp must create the file itself
 
     try:
         if not download_audio(url, audio_path):
@@ -195,7 +213,7 @@ def main():
     elif args.playlist:
         # get all video URLs from playlist
         result = subprocess.run(
-            ["yt-dlp", "--flat-playlist", "--dump-single-json", args.playlist],
+            [_yt_dlp_bin(), "--flat-playlist", "--dump-single-json", args.playlist],
             capture_output=True, text=True,
         )
         if result.returncode == 0:
@@ -217,7 +235,7 @@ def main():
                 continue
             print(f"\n── Channel: {channel['name']} ──")
             result = subprocess.run(
-                ["yt-dlp", "--flat-playlist", f"--playlist-end={args.max_per_channel}",
+                [_yt_dlp_bin(), "--flat-playlist", f"--playlist-end={args.max_per_channel}",
                  "--dump-single-json", playlist_url],
                 capture_output=True, text=True,
             )

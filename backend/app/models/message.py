@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import String, DateTime, ForeignKey, Text, Enum
+from sqlalchemy import Boolean, DateTime, ForeignKey, Text, Enum
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
 import enum
@@ -21,4 +21,5 @@ class Message(Base):
     content_type: Mapped[ContentType] = mapped_column(Enum(ContentType), nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)
     transcript: Mapped[str] = mapped_column(Text, nullable=True)
+    approved_for_training: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

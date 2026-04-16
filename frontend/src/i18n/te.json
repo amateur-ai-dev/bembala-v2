@@ -20,5 +20,9 @@
   "recording": "వింటున్నా...",
   "play_again": "మళ్ళీ వినండి",
   "new_chat": "కొత్త మాట",
-  "logout": "బయటికి వెళ్ళు"
+  "logout": "బయటికి వెళ్ళు",
+  "otp_sent": "+91 {{phone}} కి OTP పంపాం",
+  "otp_tap_hint": "↑ ఇక్కడ నొక్కి OTP వేయి",
+  "otp_send_failed": "OTP పంపలేకపోయాం",
+  "otp_invalid": "OTP తప్పుగా ఉంది"
 }

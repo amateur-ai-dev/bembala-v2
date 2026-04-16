@@ -4,6 +4,17 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundColor: {
+        app:     'var(--bg)',
+        surface: 'var(--surface)',
+      },
+      textColor: {
+        app:   'var(--text)',
+        muted: 'var(--muted)',
+      },
+      borderColor: {
+        app: 'var(--border)',
+      },
       colors: {
         brand: {
           50:  '#f0fdf4',
@@ -15,14 +26,6 @@ export default {
           700: '#15803d',
           800: '#166534',
           900: '#14532d',
-        },
-        surface: {
-          light: '#ffffff',
-          dark:  '#1c1c1c',
-        },
-        bg: {
-          light: '#fafafa',
-          dark:  '#0f0f0f',
         },
       },
       fontFamily: {

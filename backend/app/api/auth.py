@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.schemas.auth import OTPRequest, OTPVerify, TokenResponse
-from app.services.auth_service import generate_otp, store_otp, verify_otp, create_access_token
+from app.services.auth_service import generate_otp, store_otp, verify_otp, create_access_token, send_otp_sms
 from app.models.user import User, UserRole
 from app.deps import get_db
 from app.config import settings
@@ -14,6 +14,10 @@ def request_otp(body: OTPRequest, db: Session = Depends(get_db)):
     store_otp(body.phone, otp)
     if settings.otp_mock:
         return {"message": "OTP sent (mock mode)", "otp": otp}
+    try:
+        send_otp_sms(body.phone, otp)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail=f"Failed to send OTP: {e}")
     return {"message": "OTP sent"}
 
 @router.post("/verify-otp", response_model=TokenResponse)

@@ -25,7 +25,7 @@ export default function LoginScreen() {
       await requestOtp(phone)
       setStep('otp')
     } catch {
-      setError('OTP ಕಳಿಸಲಾಗಲಿಲ್ಲ')
+      setError(t('otp_send_failed'))
     } finally {
       setLoading(false)
     }
@@ -39,7 +39,7 @@ export default function LoginScreen() {
       login(res.data.access_token, 'worker', phone)
       navigate('/worker/voice')
     } catch {
-      setError('OTP ತಪ್ಪಾಗಿದೆ')
+      setError(t('otp_invalid'))
     } finally {
       setLoading(false)
     }
@@ -69,7 +69,7 @@ export default function LoginScreen() {
             {step === 'phone' ? t('welcome') : 'OTP'}
           </h1>
           <p className="text-muted text-base mt-1">
-            {step === 'phone' ? t('enter_phone') : `+91 ${phone} ಗೆ ಕಳಿಸಿದ್ದೇವೆ`}
+            {step === 'phone' ? t('enter_phone') : t('otp_sent', { phone })}
           </p>
         </div>
 
@@ -124,7 +124,7 @@ export default function LoginScreen() {
               autoFocus
             />
             <p className="text-center text-muted text-sm -mt-2">
-              ↑ ಇಲ್ಲಿ ಟ್ಯಾಪ್ ಮಾಡಿ OTP ಹಾಕಿ
+              {t('otp_tap_hint')}
             </p>
             <button
               onClick={handleVerify}

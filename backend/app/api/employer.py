@@ -7,12 +7,14 @@ from app.models.user import User, UserRole
 from app.models.worker_profile import WorkerProfile
 from app.deps import current_user, get_db
 
-router = APIRouter(prefix="/employer", tags=["employer"])
+router = APIRouter(prefix="/api/employer", tags=["employer"])
 
 def _require_employer(user: dict, db: Session) -> Employer:
     if user.get("role") != "employer":
         raise HTTPException(status_code=403, detail="Employer access required")
     db_user = db.query(User).filter(User.id == int(user["sub"])).first()
+    if not db_user:
+        raise HTTPException(status_code=401, detail="User not found")
     return db.query(Employer).filter(Employer.user_id == db_user.id).first()
 
 @router.post("/register", response_model=EmployerOut)
@@ -20,6 +22,8 @@ def register_org(body: EmployerRegister, user=Depends(current_user), db: Session
     if user.get("role") != "employer":
         raise HTTPException(status_code=403, detail="Employer access required")
     db_user = db.query(User).filter(User.id == int(user["sub"])).first()
+    if not db_user:
+        raise HTTPException(status_code=401, detail="User not found")
     existing = db.query(Employer).filter(Employer.user_id == db_user.id).first()
     if existing:
         return existing
@@ -48,5 +52,7 @@ def list_workers(user=Depends(current_user), db: Session = Depends(get_db)):
     result = []
     for p in profiles:
         db_user = db.query(User).filter(User.id == p.user_id).first()
+        if not db_user:
+            continue
         result.append(WorkerOut(id=p.id, phone=db_user.phone, display_name=p.display_name, dialect_code=p.dialect_code))
     return result

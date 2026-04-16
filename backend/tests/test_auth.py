@@ -17,6 +17,8 @@ def test_verify_otp_returns_token():
     assert "access_token" in resp2.json()
 
 def test_verify_wrong_otp_returns_401():
+    # "000000" is the DEV_BYPASS_OTP that always passes in mock mode.
+    # Use a clearly wrong OTP that does not collide with the bypass code.
     client.post("/auth/request-otp", json={"phone": "9000000002"})
-    resp = client.post("/auth/verify-otp", json={"phone": "9000000002", "otp": "000000", "role": "worker"})
+    resp = client.post("/auth/verify-otp", json={"phone": "9000000002", "otp": "999999", "role": "worker"})
     assert resp.status_code == 401

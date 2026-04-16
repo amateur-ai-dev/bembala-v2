@@ -28,7 +28,7 @@ const GROUPS = [
 export default function Settings() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { dialectCode, ttsSpeed, setDialect, setTtsSpeed } = useDialectStore()
+  const { dialectCode, language, ttsSpeed, setDialect, setTtsSpeed } = useDialectStore()
   const logout = useAuthStore((s) => s.logout)
   const phone = useAuthStore((s) => s.phone)
 
@@ -75,7 +75,7 @@ export default function Settings() {
         <section>
           <p className="text-muted text-xs font-medium uppercase tracking-wide mb-3">{t('dialect')}</p>
           <div className="flex flex-col gap-4">
-            {GROUPS.map((g) => (
+            {GROUPS.filter((g) => g.lang === language).map((g) => (
               <div key={g.lang}>
                 <p className="text-muted text-xs mb-2">{g.label} · {g.sub}</p>
                 <div className="flex flex-col gap-1">

@@ -47,9 +47,9 @@ export const getMessages = (sessionId: number) =>
   apiClient.get(`/api/sessions/${sessionId}/messages`)
 
 export const registerOrg = (org_name: string, system_prompt: string) =>
-  apiClient.post('/employer/register', { org_name, system_prompt })
+  apiClient.post('/api/employer/register', { org_name, system_prompt })
 
 export const updateDomainConfig = (system_prompt: string) =>
-  apiClient.put('/employer/config', { system_prompt })
+  apiClient.put('/api/employer/config', { system_prompt })
 
-export const listWorkers = () => apiClient.get('/employer/workers')
+export const listWorkers = () => apiClient.get('/api/employer/workers')

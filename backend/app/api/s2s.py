@@ -18,6 +18,8 @@ def s2s(body: S2SRequest, user=Depends(current_user), db: Session = Depends(get_
     session = db.query(ChatSession).filter(ChatSession.id == body.session_id).first()
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
+    if session.user_id != int(user["sub"]):
+        raise HTTPException(status_code=403, detail="Forbidden")
 
     sarvam = get_sarvam_client()
 
