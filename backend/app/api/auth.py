@@ -25,11 +25,15 @@ def verify_otp_endpoint(body: OTPVerify, db: Session = Depends(get_db)):
     if not verify_otp(body.phone, body.otp):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid OTP")
 
+    requested_role = UserRole.worker if body.role == "worker" else UserRole.employer
     user = db.query(User).filter(User.phone == body.phone).first()
     if not user:
-        role = UserRole.worker if body.role == "worker" else UserRole.employer
-        user = User(phone=body.phone, role=role)
+        user = User(phone=body.phone, role=requested_role)
         db.add(user)
+        db.commit()
+        db.refresh(user)
+    elif user.role != requested_role:
+        user.role = requested_role
         db.commit()
         db.refresh(user)
 

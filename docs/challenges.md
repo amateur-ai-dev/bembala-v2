@@ -290,3 +290,106 @@ The frontend was scaffolded with `npm create vite` which generates a boilerplate
 
 **Fix:**
 Replaced with a Vaakya-specific README covering the frontend's structure, screens, design system, and dev commands. Root `README.md` created for the full project.
+
+---
+
+## 17. Tailwind CSS Utility Classes Not Generating Any Styles
+
+**What happened:**
+The app rendered completely unstyled — white background, default browser fonts, no layout. All `bg-app`, `text-app`, `bg-surface`, `text-muted`, `border-app` classes produced no CSS.
+
+**Why it happened:**
+`tailwind.config.js` defined theme colours as `colors.surface.light` and `colors.bg.light`, but the components used `bg-app`, `text-app`, etc. — which Tailwind generates from `backgroundColor.app`, `textColor.app`, and `borderColor.app` extensions respectively. These keys were never defined, so Tailwind never emitted the CSS.
+
+**Fix:**
+Replaced the flat `colors` entries with properly namespaced theme extensions:
+```js
+theme: {
+  extend: {
+    backgroundColor: { app: 'var(--bg)', surface: 'var(--surface)' },
+    textColor:       { app: 'var(--text)', muted: 'var(--muted)' },
+    borderColor:     { app: 'var(--border)' },
+    colors:          { brand: { ... } },
+  }
+}
+```
+
+**Rule:** `bg-X` needs `backgroundColor.X`, `text-X` needs `textColor.X`, `border-X` needs `borderColor.X`. Putting them all under `colors.X` only works for `text-`, `bg-`, and `border-` if Tailwind is configured to generate all three — which requires the full `colors` key, not a single namespace entry.
+
+---
+
+## 18. nginx `/employer` Block Intercepting SPA Routes
+
+**What happened:**
+`/employer/login`, `/employer/workers`, and `/employer/config` all returned 404 or backend errors instead of loading the React app.
+
+**Why it happened:**
+`nginx.conf` had a `location /employer { proxy_pass http://backend:8000; }` block intended for API endpoints. nginx matched this prefix for **all** `/employer/*` paths including the React SPA routes, proxying them to the backend which had no route for them. Additionally, the backend's employer API routes were at `/employer/register`, `/employer/config`, `/employer/workers` — which collided with the SPA path names.
+
+**Fix:**
+Two changes together:
+1. Removed the `location /employer` block from `nginx.conf`. All non-`/api` and non-`/auth` paths now fall through to `try_files $uri /index.html` which serves the SPA.
+2. Changed `backend/app/api/employer.py` router prefix from `/employer` to `/api/employer`. All employer API endpoints are now under `/api/employer/*`, which nginx correctly proxies to the backend.
+
+**Rule:** Keep all backend API routes under `/api/` so nginx can proxy them with a single `location /api` block without ever conflicting with SPA routes.
+
+---
+
+## 19. Login Page Showing Kannada Regardless of Selected Language
+
+**What happened:**
+After selecting Telugu or Tamil on the language picker and proceeding to login, all dynamic strings (OTP sent message, error messages, hint text) appeared in Kannada.
+
+**Why it happened:**
+`LoginScreen.tsx` had hardcoded Kannada strings for the OTP flow: `'OTP ಕಳಿಸಲಾಗಲಿಲ್ಲ'`, `'OTP ತಪ್ಪಾಗಿದೆ'`, the OTP sent message, and the tap hint — none passed through `t()`. The static content (welcome heading, phone placeholder, button labels) used i18n correctly; only the dynamic strings were hardcoded.
+
+**Fix:**
+Added 4 new keys to all three i18n files (`kn.json`, `te.json`, `ta.json`): `otp_sent`, `otp_tap_hint`, `otp_send_failed`, `otp_invalid`. Replaced all hardcoded strings in `LoginScreen.tsx` with `t()` calls.
+
+**Rule:** Never hardcode user-visible text in components — even error messages and hints. All text goes through `t()`.
+
+---
+
+## 20. Settings Page Showing All 12 Dialects for Every User
+
+**What happened:**
+A Telugu-speaking worker saw all 12 dialects (Kannada + Telugu + Tamil) in their settings page instead of just the 6 Telugu ones.
+
+**Why it happened:**
+`Settings.tsx` mapped over `GROUPS` (all 3 language groups) without filtering. `language` was not read from `useDialectStore()`, so there was no way to know which language the current user speaks.
+
+**Fix:**
+Added `language` to the `useDialectStore()` destructure and filtered the group list:
+```tsx
+const { dialectCode, language, ttsSpeed, setDialect, setTtsSpeed } = useDialectStore()
+// ...
+{GROUPS.filter((g) => g.lang === language).map((g) => ( ... ))}
+```
+
+---
+
+## 21. Employer Login Returns 403 on `/api/employer/register`
+
+**What happened:**
+After completing OTP verification on the employer login screen, the org setup step immediately failed with "Failed to register org". Backend logs showed `403 Forbidden`.
+
+**Why it happened:**
+`auth.py` creates the JWT token using the **role stored in the database** for the user (`user.role.value`), not the role requested in the login. The `if not user:` block only sets the role on first registration. If a phone number was previously used to log in as a worker, the DB record held `role=worker`. A subsequent login as `employer` with the same phone skipped the registration block (user already existed), issued a `role=worker` JWT, and the employer endpoint correctly rejected it with 403.
+
+**Fix:**
+Added an `elif` to update the stored role when it differs from the requested role:
+```python
+requested_role = UserRole.worker if body.role == "worker" else UserRole.employer
+user = db.query(User).filter(User.phone == body.phone).first()
+if not user:
+    user = User(phone=body.phone, role=requested_role)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+elif user.role != requested_role:
+    user.role = requested_role
+    db.commit()
+    db.refresh(user)
+```
+
+**Rule:** JWT token role should reflect what the user is logging in as, not a stale DB value. For a single-phone-number system, the last login role wins.

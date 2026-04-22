@@ -1,7 +1,7 @@
 # Vaakya — Architecture & Process Flow
 
 > Complete technical reference for the system design, component interactions, and key request flows.
-> Current as of April 2026 (commit 4842f93).
+> Current as of April 2026 (commit 20122ae).
 
 ---
 
@@ -119,7 +119,7 @@ backend/app/
 │   ├── translate.py     # /api/translate
 │   ├── s2s.py           # /api/s2s (orchestrates STT→chat→TTS)
 │   ├── sessions.py      # /api/sessions, /api/sessions/{id}/messages
-│   └── employer.py      # /employer/register, /employer/config, /employer/workers
+│   └── employer.py      # /api/employer/register, /api/employer/config, /api/employer/workers
 │
 ├── models/              # SQLAlchemy ORM models (one file per table)
 │   ├── user.py
@@ -162,9 +162,9 @@ backend/app/
 | POST | `/api/s2s` | JWT | Voice in → voice out (full pipeline) |
 | POST | `/api/sessions` | JWT | Create chat session |
 | GET | `/api/sessions/{id}/messages` | JWT | Get session history |
-| POST | `/employer/register` | JWT | Register org + system prompt |
-| PUT | `/employer/config` | JWT | Update system prompt |
-| GET | `/employer/workers` | JWT | List workers in org |
+| POST | `/api/employer/register` | JWT (employer) | Register org + system prompt |
+| PUT | `/api/employer/config` | JWT (employer) | Update system prompt |
+| GET | `/api/employer/workers` | JWT (employer) | List workers in org |
 
 ---
 
@@ -625,14 +625,14 @@ EMPLOYER              FRONTEND                   BACKEND                DB
   │                      │◄─ JWT ─────────────────  │                   │
   │                      │                          │                   │
   │ enters org name ────►│                          │                   │
-  │                      │── POST /employer/register►│                  │
+  │                      │── POST /api/employer/register►│               │
   │                      │   { org_name,            │── insert ────────►│
   │                      │     system_prompt }       │  employers row    │
   │                      │◄─ 200 OK ─────────────── │                   │
   │◄─ dashboard          │                          │                   │
   │                      │                          │                   │
   │ edits config ───────►│                          │                   │
-  │                      │── PUT /employer/config ──►│                  │
+  │                      │── PUT /api/employer/config►│                 │
   │                      │   { system_prompt }       │── update ────────►│
   │                      │◄─ 200 OK                 │   employers.system│
   │                      │                          │   _prompt         │
@@ -672,7 +672,7 @@ Injects into Sarvam-M chat call
 │                                                              │
 │  1. AUTHENTICATION                                           │
 │     Phone + OTP → JWT (HS256, 7-day expiry)                  │
-│     Every /api/* and /employer/* route requires valid JWT    │
+│     Every /api/* route requires valid JWT                    │
 │                                                              │
 │  2. AUTHORISATION                                            │
 │     JWT payload contains role (worker | employer)            │
